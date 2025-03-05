@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TaskManagementApp.Domain.Entities;
 using TaskManagementApp.Domain.Interface;
 
-namespace TaskManagementApp.Infastructure.Interface
+namespace TaskManagementApp.Domain.Interface
 {
     public interface IUserRepository : IRepository<User>
     {

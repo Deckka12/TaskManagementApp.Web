@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskManagmentApp.Infastructure.DTOs
+namespace TaskManagementApp.Application.DTOs
 {
-    internal class ProjectDTO
+    public class ProjectDTO
     {
     }
 }

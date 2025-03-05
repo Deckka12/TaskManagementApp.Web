@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskManagementApp.Domain.Entities;
 using TaskManagementApp.Domain.Enums;
-using TaskStatus = TaskManagmentApp.Domain.Enums.TaskStatus;
+using TaskStatus = TaskManagementApp.Domain.Enums.TaskStatus;
 
 namespace TaskManagmentApp.Infrastructure.Configuration
 {

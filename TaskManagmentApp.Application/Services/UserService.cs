@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskManagmentApp.Infastructure.Services
+namespace TaskManagementApp.Application.Services
 {
-    internal class UserService
+    public class UserService
     {
     }
 }

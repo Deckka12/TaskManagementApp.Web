@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TaskManagmentApp.Infastructure.DBContext;
+using TaskManagementApp.Infrastructure.DBContext;
 
 #nullable disable
 
-namespace TaskManagmentApp.Infastructure.Migrations
+namespace TaskManagementApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20250305113736_FixForeignKeys")]

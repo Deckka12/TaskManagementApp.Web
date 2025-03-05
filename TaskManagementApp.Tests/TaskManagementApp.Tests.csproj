@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaskManagmentApp.Domain\TaskManagementApp.Domain.csproj" />
-    <ProjectReference Include="..\TaskManagmentApp.Infastructure\TaskManagmentApp.Infrastructure.csproj" />
+    <ProjectReference Include="..\TaskManagmentApp.Infastructure\TaskManagementApp.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

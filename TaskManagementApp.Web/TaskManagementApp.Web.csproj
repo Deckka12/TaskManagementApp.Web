@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Tasks\" />
     <Folder Include="Views\Projects\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
@@ -22,7 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TaskManagmentApp.Infastructure\TaskManagmentApp.Infrastructure.csproj" />
+    <ProjectReference Include="..\TaskManagmentApp.Application\TaskManagementApp.Application.csproj" />
+    <ProjectReference Include="..\TaskManagmentApp.Infastructure\TaskManagementApp.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,6 @@ using TaskManagementApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using TaskManagementApp.Infrastructure.DBContext;
 using TaskManagementApp.Domain.Interface;
-using TaskManagementApp.Infastructure.Interface;
 
 namespace TaskManagementApp.Infrastructure.Repositories
 {

@@ -1,0 +1,30 @@
+﻿@model TaskManagementApp.Application.DTOs.TaskDto
+
+@{
+    ViewData["Title"] = "Добавить задачу";
+}
+
+<h2>Добавить задачу</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Название</label>
+        <input type="text" class="form-control" asp-for="Title" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Описание</label>
+        <textarea class="form-control" asp-for="Description"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Приоритет</label>
+        <select class="form-select" asp-for="Priority">
+            <option value="Low">Низкий</option>
+            <option value="Medium">Средний</option>
+            <option value="High">Высокий</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Создать</button>
+</form>

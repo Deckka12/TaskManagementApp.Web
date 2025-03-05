@@ -1,8 +1,8 @@
-using TaskManagmentApp.Infastructure.DBContext;
+using TaskManagementApp.Infrastructure.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
-using TaskManagmentApp.Domain.Interface;
-using TaskManagmentApp.Infastructure.Repositories;
+using TaskManagementApp.Domain.Interface;
+using TaskManagementApp.Infrastructure.Repositories;
 
 
 namespace TaskManagementApp.Web

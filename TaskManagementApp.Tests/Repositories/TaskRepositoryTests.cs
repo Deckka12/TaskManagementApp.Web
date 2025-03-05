@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TaskManagementApp.Domain.Entities;
 using TaskManagementApp.Infrastructure.DBContext;
-using TaskManagementApp.Infrastructure.DBContext;
 using TaskManagementApp.Infrastructure.Repositories;
 using Xunit;
 
