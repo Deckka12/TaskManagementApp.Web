@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TaskManagmentApp.Domain\TaskManagmentApp.Domain.csproj" />
+    <ProjectReference Include="..\TaskManagmentApp.Domain\TaskManagementApp.Domain.csproj" />
   </ItemGroup>
 
 </Project>

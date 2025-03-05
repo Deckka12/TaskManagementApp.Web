@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementApp.Web", "TaskManagementApp.Web\TaskManagementApp.Web.csproj", "{D3E5ADED-9031-4BAD-A123-EBD0A78026C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagmentApp.Application", "TaskManagmentApp.Application\TaskManagmentApp.Application.csproj", "{777FBC17-98F3-4351-AF88-088BF5DD34E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementApp.Application", "TaskManagmentApp.Application\TaskManagementApp.Application.csproj", "{777FBC17-98F3-4351-AF88-088BF5DD34E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagmentApp.Domain", "TaskManagmentApp.Domain\TaskManagmentApp.Domain.csproj", "{A1FC4539-B892-41AD-8E94-5F1807E28B10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementApp.Domain", "TaskManagmentApp.Domain\TaskManagementApp.Domain.csproj", "{A1FC4539-B892-41AD-8E94-5F1807E28B10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagmentApp.Infastructure", "TaskManagmentApp.Infastructure\TaskManagmentApp.Infastructure.csproj", "{0A02A488-4DAB-4D6C-BC47-F06DC8B9DEE5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagmentApp.Infrastructure", "TaskManagmentApp.Infastructure\TaskManagmentApp.Infrastructure.csproj", "{0A02A488-4DAB-4D6C-BC47-F06DC8B9DEE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
