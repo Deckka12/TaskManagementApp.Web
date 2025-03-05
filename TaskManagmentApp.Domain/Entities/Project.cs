@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskManagmentApp.Domain.Entities
+namespace TaskManagementApp.Domain.Entities
 {
     public class Project
     {

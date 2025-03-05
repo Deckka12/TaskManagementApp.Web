@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagmentApp.Domain.Entities;
-using TaskManagmentApp.Domain.Interface;
+using TaskManagementApp.Domain.Entities;
+using TaskManagementApp.Domain.Interface;
 
-namespace TaskManagmentApp.Infastructure.Repositories
+namespace TaskManagementApp.Infastructure.Interface
 {
     public interface IUserRepository : IRepository<User>
     {

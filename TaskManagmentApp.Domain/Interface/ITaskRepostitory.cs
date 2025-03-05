@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagmentApp.Domain.Entities;
+using TaskManagementApp.Domain.Entities;
 
-namespace TaskManagmentApp.Domain.Interface
+namespace TaskManagementApp.Domain.Interface
 {
     public interface ITaskRepository : IRepository<TaskItem>
     {

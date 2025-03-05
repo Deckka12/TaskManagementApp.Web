@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 
-namespace TaskManagmentApp.Infastructure.DBContext
+namespace TaskManagementApp.Infrastructure.DBContext
 {
     public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {

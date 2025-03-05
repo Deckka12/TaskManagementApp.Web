@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagmentApp.Domain.Entities;
+using TaskManagementApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using TaskManagmentApp.Infastructure.DBContext;
-using TaskManagmentApp.Domain.Interface;
+using TaskManagementApp.Infrastructure.DBContext;
+using TaskManagementApp.Domain.Interface;
+using TaskManagementApp.Infastructure.Interface;
 
-namespace TaskManagmentApp.Infastructure.Repositories
+namespace TaskManagementApp.Infrastructure.Repositories
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {

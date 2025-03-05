@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace TaskManagmentApp.Infastructure.Migrations
+namespace TaskManagementApp.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class FixForeignKeys : Migration

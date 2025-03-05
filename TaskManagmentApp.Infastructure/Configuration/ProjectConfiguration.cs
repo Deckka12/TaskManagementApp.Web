@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagmentApp.Domain.Entities;
-using TaskManagmentApp.Domain.Enums;
-using TaskStatus = TaskManagmentApp.Domain.Enums.TaskStatus;
+using TaskManagementApp.Domain.Entities;
+using TaskManagementApp.Domain.Enums;
+using TaskStatus = TaskManagementApp.Domain.Enums.TaskStatus;
 
-namespace TaskManagmentApp.Infastructure.Configuration
+namespace TaskManagementApp.Infrastructure.Configuration
 {
     public class ProjectConfiguration : IEntityTypeConfiguration<Project>
     {

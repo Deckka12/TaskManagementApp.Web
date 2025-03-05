@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagmentApp.Domain.Enums;
-using TaskStatus = TaskManagmentApp.Domain.Enums.TaskStatus;
+using TaskManagementApp.Domain.Enums;
+using TaskStatus = TaskManagementApp.Domain.Enums.TaskStatus;
 
-namespace TaskManagmentApp.Domain.Entities
+namespace TaskManagementApp.Domain.Entities
 {
     public class TaskItem
     {

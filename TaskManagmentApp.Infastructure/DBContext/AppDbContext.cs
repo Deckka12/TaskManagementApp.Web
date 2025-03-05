@@ -6,9 +6,9 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TaskManagmentApp.Domain.Entities;
+using TaskManagementApp.Domain.Entities;
 
-namespace TaskManagmentApp.Infastructure.DBContext
+namespace TaskManagementApp.Infrastructure.DBContext
 {
     public class AppDbContext : DbContext
     {

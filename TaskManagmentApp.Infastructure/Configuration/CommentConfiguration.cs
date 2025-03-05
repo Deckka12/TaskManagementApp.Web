@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagmentApp.Domain.Entities;
+using TaskManagementApp.Domain.Entities;
 
-namespace TaskManagmentApp.Infastructure.Configuration
+namespace TaskManagementApp.Infrastructure.Configuration
 {
     public class CommentConfiguration : IEntityTypeConfiguration<Comment>
     {

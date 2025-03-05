@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TaskManagmentApp.Infastructure.DBContext;
+using TaskManagementApp.Infrastructure.DBContext;
 
 #nullable disable
 
-namespace TaskManagmentApp.Infastructure.Migrations
+namespace TaskManagementApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot

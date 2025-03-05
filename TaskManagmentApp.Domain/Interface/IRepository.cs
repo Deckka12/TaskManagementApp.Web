@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskManagmentApp.Domain.Interface
+namespace TaskManagementApp.Domain.Interface
 {
     public interface IRepository<T> where T : class
     {

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagmentApp.Domain.Entities;
-using TaskManagmentApp.Infastructure.DBContext;
+using TaskManagementApp.Domain.Entities;
+using TaskManagementApp.Infrastructure.DBContext;
 using Microsoft.EntityFrameworkCore;
-using TaskManagmentApp.Domain.Interface;
+using TaskManagementApp.Domain.Interface;
 
-namespace TaskManagmentApp.Infastructure.Repositories
+namespace TaskManagementApp.Infrastructure.Repositories
 {
     public class TaskRepository : GenericRepository<TaskItem>, ITaskRepository
     {

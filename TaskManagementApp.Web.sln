@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementApp.Domain", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagmentApp.Infrastructure", "TaskManagmentApp.Infastructure\TaskManagmentApp.Infrastructure.csproj", "{0A02A488-4DAB-4D6C-BC47-F06DC8B9DEE5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagementApp.Tests", "TaskManagementApp.Tests\TaskManagementApp.Tests.csproj", "{CC2EF5CC-CF08-438C-A809-0BEF5A7996C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{0A02A488-4DAB-4D6C-BC47-F06DC8B9DEE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A02A488-4DAB-4D6C-BC47-F06DC8B9DEE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A02A488-4DAB-4D6C-BC47-F06DC8B9DEE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC2EF5CC-CF08-438C-A809-0BEF5A7996C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC2EF5CC-CF08-438C-A809-0BEF5A7996C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC2EF5CC-CF08-438C-A809-0BEF5A7996C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC2EF5CC-CF08-438C-A809-0BEF5A7996C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

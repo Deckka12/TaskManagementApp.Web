@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TaskManagmentApp.Domain.Entities;
+using TaskManagementApp.Domain.Entities;
 
 namespace TaskManagementApp.Infrastructure.Configuration
 {

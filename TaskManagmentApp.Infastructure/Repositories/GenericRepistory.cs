@@ -5,10 +5,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagmentApp.Infastructure.DBContext;
-using TaskManagmentApp.Domain.Interface;
+using TaskManagementApp.Infrastructure.DBContext;
+using TaskManagementApp.Domain.Interface;
 
-namespace TaskManagmentApp.Infastructure.Repositories
+namespace TaskManagementApp.Infrastructure.Repositories
 {
     public class GenericRepository<T> : IRepository<T> where T : class
     {

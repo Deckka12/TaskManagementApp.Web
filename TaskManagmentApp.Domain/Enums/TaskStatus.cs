@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskManagmentApp.Domain.Enums
+namespace TaskManagementApp.Domain.Enums
 {
     public enum TaskStatus
     {

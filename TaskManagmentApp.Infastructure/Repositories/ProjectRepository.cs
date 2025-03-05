@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskManagmentApp.Infastructure.Repositories
+namespace TaskManagementApp.Infrastructure.Repositories
 {
     internal class ProjectRepository
     {
