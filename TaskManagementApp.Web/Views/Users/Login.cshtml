@@ -1,0 +1,26 @@
+﻿@model TaskManagementApp.Application.DTOs.UserLoginDto
+
+@{
+    ViewData["Title"] = "Вход";
+}
+
+<h2>Вход</h2>
+
+<form asp-action="Login" method="post">
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input asp-for="Email" type="email" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Пароль</label>
+        <input asp-for="Password" type="password" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Войти</button>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger mt-3">
+        @Html.ValidationSummary()
+    </div>
+}

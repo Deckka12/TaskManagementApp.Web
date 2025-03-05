@@ -4,31 +4,60 @@
     ViewData["Title"] = "Список задач";
 }
 
-<h2>Список задач</h2>
+<h2 class="mb-4 text-center">📌 Список задач</h2>
 
-<a class="btn btn-success mb-3" asp-action="Create">Добавить задачу</a>
+<div class="d-flex justify-content-between mb-3">
+    <a class="btn btn-success" asp-action="Create">
+        <i class="fas fa-plus"></i> Добавить задачу
+    </a>
+</div>
 
-<table class="table table-bordered">
-    <thead>
+<table class="table table-hover shadow-sm bg-white rounded">
+    <thead class="table-dark">
         <tr>
-            <th>Название</th>
-            <th>Статус</th>
-            <th>Приоритет</th>
-            <th>Действия</th>
+            <th>📌 Название</th>
+            <th class="text-center">📊 Статус</th>
+            <th class="text-center">🔥 Приоритет</th>
+            <th class="text-center">⚙ Действия</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var task in Model)
+        @if (Model.Count == 0)
         {
             <tr>
-                <td>@task.Title</td>
-                <td>@task.Status</td>
-                <td>@task.Priority</td>
-                <td>
-                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@task.Id">Редактировать</a>
-                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@task.Id">Удалить</a>
-                </td>
+                <td colspan="4" class="text-center text-muted py-3">Задачи отсутствуют</td>
             </tr>
+        }
+        else
+        {
+            @foreach (var task in Model)
+            {
+                <tr>
+                    <td>@task.Title</td>
+                    <td class="text-center">
+                        <span class="badge @(task.Status == TaskManagementApp.Domain.Enums.TaskStatus.Completed ? "bg-success" :
+                                          task.Status == TaskManagementApp.Domain.Enums.TaskStatus.InProgress ? "bg-warning" : "bg-secondary")">
+                            @task.Status
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <span class="badge @(task.Priority == TaskManagementApp.Domain.Enums.TaskPriority.High ? "bg-danger" :
+                                          task.Priority == TaskManagementApp.Domain.Enums.TaskPriority.Medium ? "bg-warning" : "bg-primary")">
+                            @task.Priority
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@task.Id">
+                            <i class="fas fa-edit"></i> Редактировать
+                        </a>
+                        <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@task.Id"
+                           onclick="return confirm('Вы уверены, что хотите удалить задачу?');">
+                            <i class="fas fa-trash-alt"></i> Удалить
+                        </a>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>
+

@@ -13,10 +13,14 @@ namespace TaskManagementApp.Application.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository _taskRepository;
+        private readonly IProjectRepository _projectRepository;
+        private readonly IUserRepository _userRepository;
 
-        public TaskService(ITaskRepository taskRepository)
+        public TaskService(ITaskRepository taskRepository, IProjectRepository projectRepository, IUserRepository userRepository)
         {
             _taskRepository = taskRepository;
+            _projectRepository = projectRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<IEnumerable<TaskDTO>> GetAllTasksAsync()
@@ -47,6 +51,20 @@ namespace TaskManagementApp.Application.Services
 
         public async Task CreateTaskAsync(TaskDTO taskDto)
         {
+            // Проверяем, существует ли пользователь
+            var userExists = await _userRepository.GetByIdAsync(taskDto.UserId);
+            if (userExists == null)
+            {
+                throw new InvalidOperationException("Пользователь с таким ID не существует.");
+            }
+
+            // Проверяем, существует ли проект
+            var projectExists = await _projectRepository.GetByIdAsync(taskDto.ProjectId);
+            if (projectExists == null)
+            {
+                throw new InvalidOperationException("Проект с таким ID не существует.");
+            }
+
             var task = new TaskItem
             {
                 Id = Guid.NewGuid(),
@@ -57,8 +75,10 @@ namespace TaskManagementApp.Application.Services
                 UserId = taskDto.UserId,
                 ProjectId = taskDto.ProjectId
             };
+
             await _taskRepository.AddAsync(task);
         }
+
 
         public async Task UpdateTaskAsync(TaskDTO taskDto)
         {

@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskManagementApp.Domain.Entities;
 
 namespace TaskManagementApp.Domain.Interface
 {
-    internal interface IProjectRepository
+    public interface IProjectRepository : IRepository<Project>
     {
+        Task<IEnumerable<Project>> GetAllProjectsAsync();
+        Task<Project?> GetProjectByIdAsync(Guid id);
     }
 }

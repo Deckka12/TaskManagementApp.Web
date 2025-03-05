@@ -1,30 +1,29 @@
 ﻿@model TaskManagementApp.Application.DTOs.TaskDTO
 
 @{
-    ViewData["Title"] = "Добавить задачу";
+    ViewData["Title"] = "Создать задачу";
+    var users = ViewData["Users"] as List<SelectListItem>;
+    var projects = ViewData["Projects"] as List<SelectListItem>;
 }
 
-<h2>Добавить задачу</h2>
+<h2>Создание задачи</h2>
 
 <form asp-action="Create" method="post">
     <div class="mb-3">
         <label class="form-label">Название</label>
-        <input type="text" class="form-control" asp-for="Title" required />
+        <input asp-for="Title" class="form-control" required />
     </div>
-
     <div class="mb-3">
         <label class="form-label">Описание</label>
-        <textarea class="form-control" asp-for="Description"></textarea>
+        <textarea asp-for="Description" class="form-control"></textarea>
     </div>
-
     <div class="mb-3">
-        <label class="form-label">Приоритет</label>
-        <select class="form-select" asp-for="Priority">
-            <option value="Low">Низкий</option>
-            <option value="Medium">Средний</option>
-            <option value="High">Высокий</option>
-        </select>
+        <label class="form-label">Пользователь</label>
+        <select asp-for="UserId" class="form-select" asp-items="users"></select>
     </div>
-
+    <div class="mb-3">
+        <label class="form-label">Проект</label>
+        <select asp-for="ProjectId" class="form-select" asp-items="projects"></select>
+    </div>
     <button type="submit" class="btn btn-primary">Создать</button>
 </form>

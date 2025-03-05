@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace TaskManagementApp.Application.DTOs
 {
-    public class UserDTO
+    public class UserLoginDto
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public string? Password { get; set; }  // Только при регистрации
+        public string Password { get; set; } = string.Empty;
     }
 }

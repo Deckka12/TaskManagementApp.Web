@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using TaskManagementApp.Domain.Interface;
 using TaskManagementApp.Infrastructure.Repositories;
+using TaskManagementApp.Application.Interfaces;
+using TaskManagementApp.Application.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 
 namespace TaskManagementApp.Web
@@ -16,13 +19,25 @@ namespace TaskManagementApp.Web
             builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddControllersWithViews();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Users/Login"; // Страница входа
+                    options.LogoutPath = "/Users/Logout"; // Страница выхода
+                });
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+            builder.Services.AddScoped<ITaskService, TaskService>();
+            builder.Services.AddScoped<IProjectService, ProjectService>();
+            builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
-
+            app.UseAuthentication();
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -42,18 +57,6 @@ namespace TaskManagementApp.Web
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
-
-            var connString = builder.Configuration.GetConnectionString("DefaultConnection");
-            try
-            {
-                using var con = new SqlConnection(connString);
-                con.OpenAsync();
-                Console.WriteLine("Успешно");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
 
             app.Run();
         }
