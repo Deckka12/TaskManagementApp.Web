@@ -23,5 +23,15 @@ namespace TaskManagementApp.Infrastructure.Repositories
         {
             return await _context.Tasks.Where(t => t.UserId == userId).ToListAsync();
         }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            var task = await _context.Tasks.FindAsync(id);
+            if (task != null)
+            {
+                _context.Tasks.Remove(task);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

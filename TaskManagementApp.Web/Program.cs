@@ -35,6 +35,7 @@ namespace TaskManagementApp.Web
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddHttpContextAccessor();
+            //builder.WebHost.UseUrls("http://localhost:5001");
 
             var app = builder.Build();
             app.UseAuthentication();
@@ -57,7 +58,7 @@ namespace TaskManagementApp.Web
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
-
+            app.UseDeveloperExceptionPage();
             app.Run();
         }
     }

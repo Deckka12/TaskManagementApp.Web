@@ -42,6 +42,7 @@ namespace TaskManagementApp.Infrastructure.DBContext
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+
             base.OnModelCreating(modelBuilder);
         }
 

@@ -116,4 +116,19 @@ public class TasksController : Controller
             Text = p.Name
         }).ToList();
     }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteTask(Guid id)
+    {
+        var task = await _taskService.GetTaskByIdAsync(id);
+        if (task == null)
+        {
+            return Json(new { success = false, message = "Задача не найдена" });
+        }
+
+        await _taskService.DeleteTaskAsync(id);
+
+        return Json(new { success = true });
+    }
+
 }

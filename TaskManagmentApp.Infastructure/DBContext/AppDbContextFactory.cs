@@ -18,7 +18,13 @@ namespace TaskManagementApp.Infrastructure.DBContext
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
             // Подключаем SQL Server
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), options =>
+            options.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorNumbersToAdd: null));
+
 
             return new AppDbContext(optionsBuilder.Options);
         }

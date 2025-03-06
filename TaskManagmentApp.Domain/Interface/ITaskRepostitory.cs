@@ -10,5 +10,6 @@ namespace TaskManagementApp.Domain.Interface
     public interface ITaskRepository : IRepository<TaskItem>
     {
         Task<IEnumerable<TaskItem>> GetByUserIdAsync(Guid userId);
+        Task DeleteAsync(Guid id);
     }
 }

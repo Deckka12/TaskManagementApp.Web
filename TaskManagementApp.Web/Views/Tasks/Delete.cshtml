@@ -1,0 +1,17 @@
+﻿@model TaskManagementApp.Application.DTOs.TaskDTO
+
+<h2>Удалить задачу</h2>
+
+<div>
+    <h3>Вы уверены, что хотите удалить эту задачу?</h3>
+    <div>
+        <h4>@Model.Title</h4>
+        <p>@Model.Description</p>
+    </div>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>

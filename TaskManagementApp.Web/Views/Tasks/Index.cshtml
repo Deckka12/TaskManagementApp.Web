@@ -5,9 +5,11 @@
 }
 
 <h2 class="mb-4 text-center">📌 Список задач</h2>
+
 <head>
     <link rel="stylesheet" href="~/css/Tasks.css" />
 </head>
+
 <!-- Фильтры -->
 <div class="row mb-3">
     <div class="col-md-4">
@@ -43,13 +45,14 @@
                 <th class="text-start align-middle">📌 Название</th>
                 <th class="text-center align-middle">📊 Статус</th>
                 <th class="text-center align-middle">🔥 Приоритет</th>
+                <th class="text-center align-middle">⚙ Действия</th>
             </tr>
         </thead>
         <tbody>
             @if (Model.Count == 0)
             {
                 <tr>
-                    <td colspan="3" class="text-center text-muted py-3">Задачи отсутствуют</td>
+                    <td colspan="4" class="text-center text-muted py-3">Задачи отсутствуют</td>
                 </tr>
             }
             else
@@ -59,7 +62,9 @@
                     <tr class="task-row align-middle"
                         data-task-id="@task.Id"
                         data-status="@task.Status"
-                        data-priority="@task.Priority">
+                        data-priority="@task.Priority"
+                        id="task-@task.Id">
+
                         <td class="text-start align-middle">
                             <a asp-action="Details" asp-route-id="@task.Id" class="task-title text-decoration-none text-dark fw-bold">
                                 @task.Title
@@ -77,12 +82,16 @@
                                 @task.PriorityText
                             </span>
                         </td>
+                        <td class="text-center align-middle">
+                            <button class="btn btn-danger btn-sm delete-task" data-task-id="@task.Id">
+                                <i class="fas fa-trash-alt"></i> Удалить
+                            </button>
+                        </td>
                     </tr>
                 }
             }
         </tbody>
     </table>
-
 </div>
 
 <!-- Подключаем jQuery -->
@@ -108,6 +117,31 @@
                 }
             });
         });
+
+        // AJAX-удаление задачи
+        $('.delete-task').on('click', function () {
+            let taskId = $(this).data('task-id');
+
+            if (!confirm('Вы уверены, что хотите удалить задачу?')) {
+                return;
+            }
+
+            $.ajax({
+                url: '/Tasks/DeleteTask/' + taskId,
+                type: 'DELETE',
+                success: function (response) {
+                    if (response.success) {
+                        $('#task-' + taskId).fadeOut(300, function () {
+                            $(this).remove();
+                        });
+                    } else {
+                        alert('Ошибка: ' + response.message);
+                    }
+                },
+                error: function () {
+                    alert('Ошибка при удалении задачи.');
+                }
+            });
+        });
     });
 </script>
-
