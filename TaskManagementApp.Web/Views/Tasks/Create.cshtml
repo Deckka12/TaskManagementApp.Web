@@ -2,28 +2,79 @@
 
 @{
     ViewData["Title"] = "Создать задачу";
-    var users = ViewData["Users"] as List<SelectListItem>;
-    var projects = ViewData["Projects"] as List<SelectListItem>;
+    var projects = ViewData["Projects"] as List<SelectListItem> ?? new List<SelectListItem>();
 }
 
-<h2>Создание задачи</h2>
+<h2 class="mb-4 text-center">📝 Создание задачи</h2>
 
-<form asp-action="Create" method="post">
-    <div class="mb-3">
-        <label class="form-label">Название</label>
-        <input asp-for="Title" class="form-control" required />
+<div class="card shadow-lg p-4 rounded-3 bg-light">
+    <div class="card-body">
+        <form asp-action="Create" method="post" id="taskForm">
+            <!-- Название задачи -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">📌 Название</label>
+                <input asp-for="Title" class="form-control" placeholder="Введите название задачи" required />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <!-- Описание -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">📝 Описание</label>
+                <textarea asp-for="Description" class="form-control" placeholder="Добавьте описание" required></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <!-- Выбор проекта -->
+                <div class="mb-3 col-md-6">
+                    <label class="form-label fw-bold">📂 Проект</label>
+                    <select asp-for="ProjectId" class="form-select" asp-items="projects" required>
+                        <option value="">Выберите проект</option>
+                    </select>
+                    <span asp-validation-for="ProjectId" class="text-danger"></span>
+                </div>
+
+                <!-- Статус -->
+                <div class="mb-3 col-md-6">
+                    <label class="form-label fw-bold">📊 Статус</label>
+                    <select asp-for="Status" class="form-select" required>
+                        <option value="">Выберите статус</option>
+                        <option value="New">Новая</option>
+                        <option value="InProgress">В процессе</option>
+                        <option value="Completed">Завершена</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Приоритет -->
+                <div class="mb-3 col-md-6">
+                    <label class="form-label fw-bold">🔥 Приоритет</label>
+                    <select asp-for="Priority" class="form-select" required>
+                        <option value="">Выберите приоритет</option>
+                        <option value="Low">Низкий</option>
+                        <option value="Medium">Средний</option>
+                        <option value="High">Высокий</option>
+                    </select>
+                    <span asp-validation-for="Priority" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </a>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Создать задачу
+                </button>
+            </div>
+        </form>
     </div>
-    <div class="mb-3">
-        <label class="form-label">Описание</label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Пользователь</label>
-        <select asp-for="UserId" class="form-select" asp-items="users"></select>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Проект</label>
-        <select asp-for="ProjectId" class="form-select" asp-items="projects"></select>
-    </div>
-    <button type="submit" class="btn btn-primary">Создать</button>
-</form>
+</div>
+
+<!-- Подключаем клиентскую валидацию -->
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -5,6 +5,30 @@
 }
 
 <h2 class="mb-4 text-center">📌 Список задач</h2>
+<head>
+    <link rel="stylesheet" href="~/css/Tasks.css" />
+</head>
+<!-- Фильтры -->
+<div class="row mb-3">
+    <div class="col-md-4">
+        <label class="form-label">Фильтр по статусу</label>
+        <select id="statusFilter" class="form-select">
+            <option value="">Все</option>
+            <option value="New">Новая</option>
+            <option value="InProgress">В процессе</option>
+            <option value="Completed">Завершена</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Фильтр по приоритету</label>
+        <select id="priorityFilter" class="form-select">
+            <option value="">Все</option>
+            <option value="Low">Низкий</option>
+            <option value="Medium">Средний</option>
+            <option value="High">Высокий</option>
+        </select>
+    </div>
+</div>
 
 <div class="d-flex justify-content-between mb-3">
     <a class="btn btn-success" asp-action="Create">
@@ -12,52 +36,78 @@
     </a>
 </div>
 
-<table class="table table-hover shadow-sm bg-white rounded">
-    <thead class="table-dark">
-        <tr>
-            <th>📌 Название</th>
-            <th class="text-center">📊 Статус</th>
-            <th class="text-center">🔥 Приоритет</th>
-            <th class="text-center">⚙ Действия</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Count == 0)
-        {
+<div class="d-flex">
+    <table class="table table-hover shadow-sm bg-white rounded text-center" id="tasksTable">
+        <thead class="table-dark">
             <tr>
-                <td colspan="4" class="text-center text-muted py-3">Задачи отсутствуют</td>
+                <th class="text-start align-middle">📌 Название</th>
+                <th class="text-center align-middle">📊 Статус</th>
+                <th class="text-center align-middle">🔥 Приоритет</th>
             </tr>
-        }
-        else
-        {
-            @foreach (var task in Model)
+        </thead>
+        <tbody>
+            @if (Model.Count == 0)
             {
                 <tr>
-                    <td>@task.Title</td>
-                    <td class="text-center">
-                        <span class="badge @(task.Status == TaskManagementApp.Domain.Enums.TaskStatus.Completed ? "bg-success" :
-                                          task.Status == TaskManagementApp.Domain.Enums.TaskStatus.InProgress ? "bg-warning" : "bg-secondary")">
-                            @task.Status
-                        </span>
-                    </td>
-                    <td class="text-center">
-                        <span class="badge @(task.Priority == TaskManagementApp.Domain.Enums.TaskPriority.High ? "bg-danger" :
-                                          task.Priority == TaskManagementApp.Domain.Enums.TaskPriority.Medium ? "bg-warning" : "bg-primary")">
-                            @task.Priority
-                        </span>
-                    </td>
-                    <td class="text-center">
-                        <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@task.Id">
-                            <i class="fas fa-edit"></i> Редактировать
-                        </a>
-                        <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@task.Id"
-                           onclick="return confirm('Вы уверены, что хотите удалить задачу?');">
-                            <i class="fas fa-trash-alt"></i> Удалить
-                        </a>
-                    </td>
+                    <td colspan="3" class="text-center text-muted py-3">Задачи отсутствуют</td>
                 </tr>
             }
-        }
-    </tbody>
-</table>
+            else
+            {
+                @foreach (var task in Model)
+                {
+                    <tr class="task-row align-middle"
+                        data-task-id="@task.Id"
+                        data-status="@task.Status"
+                        data-priority="@task.Priority">
+                        <td class="text-start align-middle">
+                            <a asp-action="Details" asp-route-id="@task.Id" class="task-title text-decoration-none text-dark fw-bold">
+                                @task.Title
+                            </a>
+                        </td>
+                        <td class="text-center align-middle">
+                            <span class="badge @(task.Status == TaskManagementApp.Domain.Enums.TaskStatus.Completed ? "bg-success" :
+                                          task.Status == TaskManagementApp.Domain.Enums.TaskStatus.InProgress ? "bg-warning" : "bg-secondary")">
+                                @task.StatusText
+                            </span>
+                        </td>
+                        <td class="text-center align-middle">
+                            <span class="badge @(task.Priority == TaskManagementApp.Domain.Enums.TaskPriority.High ? "bg-danger" :
+                                          task.Priority == TaskManagementApp.Domain.Enums.TaskPriority.Medium ? "bg-warning" : "bg-primary")">
+                                @task.PriorityText
+                            </span>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<!-- Подключаем jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Фильтрация задач
+        $('#statusFilter, #priorityFilter').on('change', function () {
+            let selectedStatus = $('#statusFilter').val();
+            let selectedPriority = $('#priorityFilter').val();
+
+            $('#tasksTable tbody tr').each(function () {
+                let rowStatus = $(this).attr('data-status');
+                let rowPriority = $(this).attr('data-priority');
+
+                let showStatus = (selectedStatus === "" || rowStatus === selectedStatus);
+                let showPriority = (selectedPriority === "" || rowPriority === selectedPriority);
+
+                if (showStatus && showPriority) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
+</script>
 

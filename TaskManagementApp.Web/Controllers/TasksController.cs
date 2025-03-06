@@ -1,52 +1,119 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TaskManagementApp.Application;
-using TaskManagementApp.Application.Interfaces;
-using TaskManagementApp.Application.DTOs;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using TaskManagementApp.Application.Services;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using TaskManagementApp.Application.DTOs;
+using TaskManagementApp.Application.Interfaces;
 using TaskManagementApp.Domain.Interface;
+using TaskManagementApp.Web.Models;
 
 public class TasksController : Controller
 {
     private readonly ITaskService _taskService;
     private readonly IProjectService _projectService;
-    private readonly IProjectRepository _projectRepository;
-    private readonly IUserRepository _userRepository;
+    private readonly ILogger<TasksController> _logger;
 
-    public TasksController(ITaskService taskService, IProjectService projectService, IUserRepository userRepository,IProjectRepository projectRepository)
+    public TasksController(ITaskService taskService, IProjectService projectService, ILogger<TasksController> logger)
     {
         _taskService = taskService;
         _projectService = projectService;
-        _userRepository = userRepository;
-        _projectRepository = projectRepository;
+        _logger = logger;
     }
 
     public async Task<IActionResult> Index()
     {
-        var tasks = await _taskService.GetAllTasksAsync();
-        return View(tasks);
+        try
+        {
+            var tasks = await _taskService.GetAllTasksAsync();
+            return View(tasks);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Ошибка при загрузке списка задач.");
+            return View("Error", new ErrorViewModel { Message = "Не удалось загрузить задачи." });
+        }
     }
 
     public async Task<IActionResult> Create()
     {
-        var users = await _userRepository.GetAllAsync();
-        var projects = await _projectRepository.GetAllAsync();
-
-        ViewData["Users"] = users.Select(u => new SelectListItem { Value = u.Id.ToString(), Text = u.Name }).ToList();
-        ViewData["Projects"] = projects.Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Name }).ToList();
-
+        await PopulateProjectsAsync();
         return View();
     }
 
-
     [HttpPost]
-    public async Task<IActionResult> Create(TaskDTO model)
+    public async Task<IActionResult> Create(TaskDTO taskDto)
     {
-        if (ModelState.IsValid)
+        if (!User.Identity.IsAuthenticated)
         {
-            await _taskService.CreateTaskAsync(model);
+            return Unauthorized();
+        }
+
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!Guid.TryParse(userIdClaim, out var userId) || userId == Guid.Empty)
+        {
+            ModelState.AddModelError("", "Ошибка определения пользователя.");
+            await PopulateProjectsAsync();
+            return View(taskDto);
+        }
+
+        taskDto.UserId = userId;
+
+        if (!ModelState.IsValid)
+        {
+            await PopulateProjectsAsync();
+            return View(taskDto);
+        }
+
+        try
+        {
+            var project = await _projectService.GetProjectByIdAsync(taskDto.ProjectId);
+            if (project == null)
+            {
+                ModelState.AddModelError("ProjectId", "Выбранный проект не существует.");
+                await PopulateProjectsAsync();
+                return View(taskDto);
+            }
+
+            await _taskService.CreateTaskAsync(taskDto);
             return RedirectToAction("Index");
         }
-        return View(model);
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Ошибка при создании задачи.");
+            ModelState.AddModelError("", "Не удалось создать задачу.");
+            await PopulateProjectsAsync();
+            return View(taskDto);
+        }
+    }
+
+    public async Task<IActionResult> Details(Guid id)
+    {
+        try
+        {
+            var task = await _taskService.GetTaskByIdAsync(id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+            return View(task);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Ошибка при загрузке задачи с ID: {TaskId}", id);
+            return View("Error", new ErrorViewModel { Message = "Не удалось загрузить задачу." });
+        }
+    }
+
+    private async Task PopulateProjectsAsync()
+    {
+        var projects = await _projectService.GetAllProjectsAsync();
+        ViewData["Projects"] = projects.Select(p => new SelectListItem
+        {
+            Value = p.Id.ToString(),
+            Text = p.Name
+        }).ToList();
     }
 }
