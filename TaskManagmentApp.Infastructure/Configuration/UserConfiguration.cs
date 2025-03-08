@@ -14,12 +14,15 @@ namespace TaskManagementApp.Infrastructure.Configuration
             builder.HasIndex(u => u.Email).IsUnique();
 
             builder.HasMany(u => u.Projects)
-                .WithOne(p => p.Owner)
-                .HasForeignKey(p => p.OwnerId);
+    .WithOne(p => p.Owner)
+    .HasForeignKey(p => p.OwnerId)
+    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(u => u.Tasks)
                 .WithOne(t => t.User)
-                .HasForeignKey(t => t.UserId);
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

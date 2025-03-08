@@ -19,8 +19,10 @@ namespace TaskManagementApp.Infrastructure.Configuration
             builder.Property(p => p.Name).IsRequired().HasMaxLength(150);
 
             builder.HasOne(p => p.Owner)
-                .WithMany(u => u.Projects)
-                .HasForeignKey(p => p.OwnerId);
+    .WithMany(u => u.Projects)
+    .HasForeignKey(p => p.OwnerId)
+    .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

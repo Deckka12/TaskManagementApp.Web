@@ -19,11 +19,14 @@ namespace TaskManagementApp.Infrastructure.Configuration
 
             builder.HasOne(c => c.User)
                 .WithMany()
-                .HasForeignKey(c => c.UserId);
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(c => c.Task)
                 .WithMany(t => t.Comments)
-                .HasForeignKey(c => c.TaskId);
+                .HasForeignKey(c => c.TaskId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

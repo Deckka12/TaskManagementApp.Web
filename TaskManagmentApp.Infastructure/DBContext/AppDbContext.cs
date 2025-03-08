@@ -22,42 +22,61 @@ namespace TaskManagementApp.Infrastructure.DBContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Связь Task → User (убираем каскадное удаление)
+            // ❌ ОТКЛЮЧАЕМ ВСЕ CASCADE-УДАЛЕНИЯ
+
+            // Task → User
             modelBuilder.Entity<TaskItem>()
                 .HasOne(t => t.User)
                 .WithMany(u => u.Tasks)
                 .HasForeignKey(t => t.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Связь Comment → Task (убираем каскадное удаление)
+            // Task → Project
+            modelBuilder.Entity<TaskItem>()
+                .HasOne(t => t.Project)
+                .WithMany(p => p.Tasks)
+                .HasForeignKey(t => t.ProjectId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Comment → Task
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Task)
                 .WithMany(t => t.Comments)
                 .HasForeignKey(c => c.TaskId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Связь Comment → User (убираем каскадное удаление)
+            // Comment → User
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.User)
                 .WithMany()
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<WorkLog>()
-         .HasOne(w => w.Task)
-         .WithMany(t => t.WorkLogs)
-         .HasForeignKey(w => w.TaskId)
-         .OnDelete(DeleteBehavior.Restrict);  // Или DeleteBehavior.NoAction
+            // Project → Owner
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.Owner)
+                .WithMany(u => u.Projects)
+                .HasForeignKey(p => p.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            // WorkLog → Task
+            modelBuilder.Entity<WorkLog>()
+                .HasOne(w => w.Task)
+                .WithMany(t => t.WorkLogs)
+                .HasForeignKey(w => w.TaskId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // WorkLog → User
             modelBuilder.Entity<WorkLog>()
                 .HasOne(w => w.User)
                 .WithMany(u => u.WorkLogs)
                 .HasForeignKey(w => w.UserId)
-                .OnDelete(DeleteBehavior.Restrict);  // Или DeleteBehavior.NoAction
-
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
         }
+
+
 
     }
 

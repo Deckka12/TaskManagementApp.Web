@@ -21,12 +21,16 @@ namespace TaskManagmentApp.Infrastructure.Configuration
             builder.Property(t => t.Priority).HasDefaultValue(TaskPriority.Medium);
 
             builder.HasOne(t => t.User)
-                .WithMany(u => u.Tasks)
-                .HasForeignKey(t => t.UserId);
+    .WithMany(u => u.Tasks)
+    .HasForeignKey(t => t.UserId)
+    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(t => t.Project)
                 .WithMany(p => p.Tasks)
-                .HasForeignKey(t => t.ProjectId);
+                .HasForeignKey(t => t.ProjectId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
         }
     }
 }

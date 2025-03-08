@@ -12,7 +12,7 @@ using TaskManagementApp.Infrastructure.DBContext;
 namespace TaskManagementApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250308163556_InitialMigration")]
+    [Migration("20250308174137_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -158,7 +158,7 @@ namespace TaskManagementApp.Infrastructure.Migrations
                     b.Property<Guid>("TaskId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("WorkType")
@@ -198,7 +198,7 @@ namespace TaskManagementApp.Infrastructure.Migrations
                     b.HasOne("TaskManagementApp.Domain.Entities.User", "Owner")
                         .WithMany("Projects")
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Owner");
@@ -209,7 +209,7 @@ namespace TaskManagementApp.Infrastructure.Migrations
                     b.HasOne("TaskManagementApp.Domain.Entities.Project", "Project")
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("TaskManagementApp.Domain.Entities.User", "User")
@@ -228,14 +228,13 @@ namespace TaskManagementApp.Infrastructure.Migrations
                     b.HasOne("TaskManagementApp.Domain.Entities.TaskItem", "Task")
                         .WithMany("WorkLogs")
                         .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("TaskManagementApp.Domain.Entities.User", "User")
                         .WithMany("WorkLogs")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Task");
 

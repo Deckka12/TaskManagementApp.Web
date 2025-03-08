@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TaskManagementApp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class FixForeignKeys : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,7 +43,7 @@ namespace TaskManagementApp.Infrastructure.Migrations
                         column: x => x.OwnerId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,7 +67,7 @@ namespace TaskManagementApp.Infrastructure.Migrations
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Tasks_Users_UserId",
                         column: x => x.UserId,
@@ -94,9 +94,38 @@ namespace TaskManagementApp.Infrastructure.Migrations
                         column: x => x.TaskId,
                         principalTable: "Tasks",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comments_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WorkLogs",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HoursSpent = table.Column<double>(type: "float", nullable: false),
+                    WorkType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkLogs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkLogs_Tasks_TaskId",
+                        column: x => x.TaskId,
+                        principalTable: "Tasks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_WorkLogs_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -127,6 +156,16 @@ namespace TaskManagementApp.Infrastructure.Migrations
                 name: "IX_Tasks_UserId",
                 table: "Tasks",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkLogs_TaskId",
+                table: "WorkLogs",
+                column: "TaskId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkLogs_UserId",
+                table: "WorkLogs",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -134,6 +173,9 @@ namespace TaskManagementApp.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "WorkLogs");
 
             migrationBuilder.DropTable(
                 name: "Tasks");
