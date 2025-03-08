@@ -44,16 +44,16 @@ namespace TaskManagementApp.Infrastructure.DBContext
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<WorkLog>()
-        .HasOne(w => w.Task)
-        .WithMany(t => t.WorkLogs)
-        .HasForeignKey(w => w.TaskId)
-        .OnDelete(DeleteBehavior.NoAction);  // 🔹 Отключаем каскадное удаление
+         .HasOne(w => w.Task)
+         .WithMany(t => t.WorkLogs)
+         .HasForeignKey(w => w.TaskId)
+         .OnDelete(DeleteBehavior.Restrict);  // Или DeleteBehavior.NoAction
 
             modelBuilder.Entity<WorkLog>()
                 .HasOne(w => w.User)
                 .WithMany(u => u.WorkLogs)
                 .HasForeignKey(w => w.UserId)
-                .OnDelete(DeleteBehavior.NoAction);  // 🔹 Отключаем каскадное удаление
+                .OnDelete(DeleteBehavior.Restrict);  // Или DeleteBehavior.NoAction
 
 
             base.OnModelCreating(modelBuilder);
