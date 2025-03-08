@@ -35,6 +35,8 @@ namespace TaskManagementApp.Web
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<IWorkLogRepository, WorkLogRepository>();
+            builder.Services.AddScoped<IWorkLogService, WorkLogService>();
             //builder.WebHost.UseUrls("http://localhost:5001");
 
             var app = builder.Build();

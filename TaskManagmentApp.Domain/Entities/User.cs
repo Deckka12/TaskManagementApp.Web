@@ -15,6 +15,8 @@ namespace TaskManagementApp.Domain.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public ICollection<Project> Projects { get; set; } = new List<Project>();
-        public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
+        public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>(); // Это должно остаться
+        public ICollection<WorkLog> WorkLogs { get; set; } = new List<WorkLog>(); // Добавляем WorkLogs
     }
+
 }

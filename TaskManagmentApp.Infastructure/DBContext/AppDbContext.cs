@@ -13,6 +13,7 @@ namespace TaskManagementApp.Infrastructure.DBContext
     public class AppDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<WorkLog> WorkLogs { get; set; }
         public DbSet<TaskItem> Tasks { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -41,6 +42,18 @@ namespace TaskManagementApp.Infrastructure.DBContext
                 .WithMany()
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<WorkLog>()
+        .HasOne(w => w.Task)
+        .WithMany(t => t.WorkLogs)
+        .HasForeignKey(w => w.TaskId)
+        .OnDelete(DeleteBehavior.NoAction);  // 🔹 Отключаем каскадное удаление
+
+            modelBuilder.Entity<WorkLog>()
+                .HasOne(w => w.User)
+                .WithMany(u => u.WorkLogs)
+                .HasForeignKey(w => w.UserId)
+                .OnDelete(DeleteBehavior.NoAction);  // 🔹 Отключаем каскадное удаление
 
 
             base.OnModelCreating(modelBuilder);

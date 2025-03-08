@@ -24,6 +24,7 @@ namespace TaskManagementApp.Domain.Entities
         public Project Project { get; set; } = null!;
 
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public ICollection<WorkLog> WorkLogs { get; set; } = new List<WorkLog>(); // 🔹 Если WorkLogs связан с задачей
     }
 
     

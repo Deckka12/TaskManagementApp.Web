@@ -42,4 +42,84 @@
             </a>
         </div>
     </div>
+
+
+    <h2>Трудозатраты</h2>
+
+    <form id="workLogForm">
+        <div class="mb-3">
+            <label class="form-label">Количество часов</label>
+            <input type="number" id="hoursSpent" class="form-control" min="0.1" step="0.1" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Тип работы</label>
+            <select id="workType" class="form-control">
+                <option value="Разработка">Разработка</option>
+                <option value="Тестирование">Тестирование</option>
+                <option value="Обсуждение">Обсуждение</option>
+                <option value="Документирование">Документирование</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Комментарий</label>
+            <input type="text" id="comment" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+
+    <p><strong>Общее время:</strong> <span id="totalHours">Загрузка...</span></p>
+
+    <h3>История</h3>
+    <ul id="workLogHistory"></ul>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const taskId = @Model.Id;
+            const form = document.getElementById("workLogForm");
+            const totalHours = document.getElementById("totalHours");
+            const historyList = document.getElementById("workLogHistory");
+
+            function loadWorkLogs() {
+                fetch(`/api/worklog/total/${taskId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        totalHours.innerText = data.totalHours;
+                    });
+
+                fetch(`/api/worklog/history/${taskId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        historyList.innerHTML = "";
+                        data.forEach(log => {
+                            const li = document.createElement("li");
+                            li.innerText = `${log.date}: ${log.hoursSpent} ч - ${log.workType} (${log.comment})`;
+                            historyList.appendChild(li);
+                        });
+                    });
+            }
+
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const data = {
+                    taskId: taskId,
+                    hoursSpent: document.getElementById("hoursSpent").value,
+                    workType: document.getElementById("workType").value,
+                    comment: document.getElementById("comment").value
+                };
+
+                fetch(`/api/worklog/add`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                }).then(() => {
+                    form.reset();
+                    loadWorkLogs();
+                });
+            });
+
+            loadWorkLogs();
+        });
+    </script>
+
 </div>
