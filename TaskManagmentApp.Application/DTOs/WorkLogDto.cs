@@ -11,7 +11,7 @@ namespace TaskManagementApp.Application.DTOs
         public Guid TaskId { get; set; }
         public double HoursSpent { get; set; }
         public string WorkType { get; set; }
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
     }
 
 }

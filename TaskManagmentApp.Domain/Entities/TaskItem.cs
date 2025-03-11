@@ -23,8 +23,8 @@ namespace TaskManagementApp.Domain.Entities
         public Guid ProjectId { get; set; }
         public Project Project { get; set; } = null!;
 
-        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
-        public ICollection<WorkLog> WorkLogs { get; set; } = new List<WorkLog>(); // 🔹 Если WorkLogs связан с задачей
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public virtual ICollection<WorkLog> WorkLogs { get; set; } = new List<WorkLog>(); // 🔹 Если WorkLogs связан с задачей
     }
 
     

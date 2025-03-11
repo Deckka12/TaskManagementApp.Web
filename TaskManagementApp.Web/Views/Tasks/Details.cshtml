@@ -1,125 +1,125 @@
 ﻿@model TaskManagementApp.Application.DTOs.TaskDTO
 
 @{
-    ViewData["Title"] = "Просмотр задачи";
+	ViewData["Title"] = "Просмотр задачи";
+	double totalHours = Model.workLogs.Sum(log => log.HoursSpent);
 }
+<link rel="stylesheet" href="~/css/Tasks.css" />
 
-<h2 class="mb-4 text-center">📌 Просмотр задачи</h2>
+<div class="container mt-4">
+	<h2 class="text-center mb-4">Просмотр задачи</h2>
 
-<div class="card shadow-sm p-4">
-    <h4 class="mb-3">Название: <span class="fw-bold">@Model.Title</span></h4>
+	<div class="card shadow-sm border-0 p-4 shadowdiv">
+		<div class="d-flex justify-content-between align-items-center theme">
+			<h3 class="text-primary fw-bold mb-3">@Model.Title</h3>
+		</div>
 
-    <div class="mb-3">
-        <h5>📋 Описание</h5>
-        <p>@(string.IsNullOrEmpty(Model.Description) ? "Нет описания" : Model.Description)</p>
-    </div>
+		<div class="row blockRow">
+			<div class="col-md-6 d-flex align-items-center">
+				<h5 class="me-2">Статус</h5>
+				<span class="badge fs-6 @(Model.Status == TaskManagementApp.Domain.Enums.TaskStatus.Completed ? "bg-success" :
+                                    Model.Status == TaskManagementApp.Domain.Enums.TaskStatus.InProgress ? "bg-warning" : "bg-secondary")">
+					@Model.Status
+				</span>
+			</div>
+			<div class="col-md-6 d-flex align-items-center">
+				<h5 class="me-2">Приоритет</h5>
+				<span class="badge fs-6 @(Model.Priority == TaskManagementApp.Domain.Enums.TaskPriority.High ? "bg-danger" :
+                                    Model.Priority == TaskManagementApp.Domain.Enums.TaskPriority.Medium ? "bg-warning" : "bg-primary")">
+					@Model.Priority
+				</span>
+			</div>
 
-    <div class="mb-3">
-        <h5>📊 Статус</h5>
-        <span class="badge @(Model.Status == TaskManagementApp.Domain.Enums.TaskStatus.Completed ? "bg-success" :
-                          Model.Status == TaskManagementApp.Domain.Enums.TaskStatus.InProgress ? "bg-warning" : "bg-secondary")">
-            @Model.Status
-        </span>
-    </div>
+			<h5>Общее время: <strong>@totalHours ч</strong></h5>
+		</div>
+		<div class="divflex divjustife">
+			<div class="width100">
+			 <h5>Описание:</h5>
+				<p class="text-muted">@(string.IsNullOrEmpty(Model.Description) ? "Нет описания" : Model.Description)</p>
+			</div>
+			
+		</div>
+		<div class="d-flex justify-content-between mt-4">
+			<a class="btn btn-outline-secondary d-flex align-items-center" asp-action="Index">
+				<i class="fas fa-arrow-left me-2"></i> Назад
+			</a>
+			<div class="divflex">
+				<a class="btn btn-outline-primary d-flex align-items-center me-2" asp-action="Edit" asp-route-id="@Model.Id">
+					<i class="fas fa-edit me-2"></i> Редактировать
+				</a>
+				<a class="btn btn-outline-danger d-flex align-items-center" asp-action="Delete" asp-route-id="@Model.Id"
+				   onclick="return confirm('Вы уверены, что хотите удалить эту задачу?');">
+					<i class="fas fa-trash-alt me-2"></i> Удалить
+				</a>
+			</div>
+		</div>
+	</div>
 
-    <div class="mb-3">
-        <h5>🔥 Приоритет</h5>
-        <span class="badge @(Model.Priority == TaskManagementApp.Domain.Enums.TaskPriority.High ? "bg-danger" :
-                          Model.Priority == TaskManagementApp.Domain.Enums.TaskPriority.Medium ? "bg-warning" : "bg-primary")">
-            @Model.Priority
-        </span>
-    </div>
+	<hr />
 
-    <div class="mt-4 d-flex justify-content-between">
-        <a class="btn btn-outline-secondary" asp-action="Index">🔙 Назад к списку</a>
-        <div>
-            <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@Model.Id">
-                <i class="fas fa-edit"></i> Редактировать
-            </a>
-            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@Model.Id"
-               onclick="return confirm('Вы уверены, что хотите удалить эту задачу?');">
-                <i class="fas fa-trash-alt"></i> Удалить
-            </a>
-        </div>
-    </div>
+	<!-- Вкладки -->
+	<ul class="nav nav-tabs mt-4" id="taskTabs">
+		<li class="nav-item">
+			<button class="nav-link active" id="worklogs-tab" data-bs-toggle="tab" data-bs-target="#worklogs" type="button">
+				Трудозатраты
+			</button>
+		</li>
+		<li class="nav-item">
+			<button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments" type="button">
+				Комментарии
+			</button>
+		</li>
+	</ul>
+
+	<div class="tab-content mt-3" id="taskTabsContent">
+		<!-- Вкладка Трудозатраты -->
+		<div class="tab-pane fade show active" id="worklogs">
+			@await Html.PartialAsync("_AddWorkLog", new TaskManagementApp.Application.DTOs.WorkLogDto { TaskId = Model.Id })
+
+			<h3 class="mt-4">📜 История трудозатрат</h3>
+
+			@if (Model.workLogs.Any())
+			{
+					<div class="table-responsive">
+						<table class="table table-hover table-bordered shadow-sm">
+							<thead class="table-light">
+								<tr>
+									<th>👤 Пользователь</th>
+									<th>⏳ Время (ч)</th>
+									<th>🏷️ Тип работы</th>
+									<th>💬 Комментарий</th>
+									<th>📅 Дата</th>
+								</tr>
+							</thead>
+							<tbody>
+							@foreach (var log in Model.workLogs)
+							{
+										<tr>
+											<td>
+												<span class="badge bg-primary text-white">@log.User.Name</span>
+											</td>
+											<td>@log.HoursSpent</td>
+											<td>@log.WorkType</td>
+											<td>@log.Comment</td>
+											<td>@log.Date.ToString("dd.MM.yyyy HH:mm")</td>
+										</tr>
+							}
+							</tbody>
+						</table>
+					</div>
+			}
+			else
+			{
+					<p class="text-muted">❌ Трудозатраты отсутствуют.</p>
+			}
 
 
-    <h2>Трудозатраты</h2>
+		</div>
 
-    <form id="workLogForm">
-        <div class="mb-3">
-            <label class="form-label">Количество часов</label>
-            <input type="number" id="hoursSpent" class="form-control" min="0.1" step="0.1" required />
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Тип работы</label>
-            <select id="workType" class="form-control">
-                <option value="Разработка">Разработка</option>
-                <option value="Тестирование">Тестирование</option>
-                <option value="Обсуждение">Обсуждение</option>
-                <option value="Документирование">Документирование</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Комментарий</label>
-            <input type="text" id="comment" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-primary">Добавить</button>
-    </form>
-
-    <p><strong>Общее время:</strong> <span id="totalHours">Загрузка...</span></p>
-
-    <h3>История</h3>
-    <ul id="workLogHistory"></ul>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const taskId = @Model.Id;
-            const form = document.getElementById("workLogForm");
-            const totalHours = document.getElementById("totalHours");
-            const historyList = document.getElementById("workLogHistory");
-
-            function loadWorkLogs() {
-                fetch(`/api/worklog/total/${taskId}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        totalHours.innerText = data.totalHours;
-                    });
-
-                fetch(`/api/worklog/history/${taskId}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        historyList.innerHTML = "";
-                        data.forEach(log => {
-                            const li = document.createElement("li");
-                            li.innerText = `${log.date}: ${log.hoursSpent} ч - ${log.workType} (${log.comment})`;
-                            historyList.appendChild(li);
-                        });
-                    });
-            }
-
-            form.addEventListener("submit", function (e) {
-                e.preventDefault();
-
-                const data = {
-                    taskId: taskId,
-                    hoursSpent: document.getElementById("hoursSpent").value,
-                    workType: document.getElementById("workType").value,
-                    comment: document.getElementById("comment").value
-                };
-
-                fetch(`/api/worklog/add`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                }).then(() => {
-                    form.reset();
-                    loadWorkLogs();
-                });
-            });
-
-            loadWorkLogs();
-        });
-    </script>
+		<!-- Вкладка Комментарии (пока пустая) -->
+		<div class="tab-pane fade" id="comments">
+			<p class="text-muted">💬 Раздел комментариев пока не реализован.</p>
+		</div>
+	</div>
 
 </div>

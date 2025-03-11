@@ -8425,7 +8425,7 @@ textarea.form-control-lg {
 }
 
 .fw-bold {
-  font-weight: 700 !important;
+  font-weight: 600 !important;
 }
 
 .fw-bolder {
@@ -9861,9 +9861,6 @@ textarea.form-control-lg {
   }
   .justify-content-md-start {
     justify-content: flex-start !important;
-  }
-  .justify-content-md-end {
-    justify-content: flex-end !important;
   }
   .justify-content-md-center {
     justify-content: center !important;

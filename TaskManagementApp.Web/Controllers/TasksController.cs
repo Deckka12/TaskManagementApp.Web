@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -7,20 +8,25 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using TaskManagementApp.Application.DTOs;
 using TaskManagementApp.Application.Interfaces;
+using TaskManagementApp.Domain.Entities;
 using TaskManagementApp.Domain.Interface;
+using TaskManagementApp.Infrastructure.DBContext;
 using TaskManagementApp.Web.Models;
+
+
 
 public class TasksController : Controller
 {
     private readonly ITaskService _taskService;
     private readonly IProjectService _projectService;
     private readonly ILogger<TasksController> _logger;
-
-    public TasksController(ITaskService taskService, IProjectService projectService, ILogger<TasksController> logger)
+    private readonly AppDbContext _context;
+    public TasksController(ITaskService taskService, IProjectService projectService, ILogger<TasksController> logger, AppDbContext context)
     {
         _taskService = taskService;
         _projectService = projectService;
         _logger = logger;
+        _context = context;
     }
 
     public async Task<IActionResult> Index()
@@ -60,6 +66,7 @@ public class TasksController : Controller
         }
 
         taskDto.UserId = userId;
+        taskDto.workLogs = null;
 
         if (!ModelState.IsValid)
         {
@@ -130,5 +137,119 @@ public class TasksController : Controller
 
         return Json(new { success = true });
     }
+
+    [HttpPost]
+    public async Task<IActionResult> AddWorkLog(WorkLogDto workLogDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Details", new { id = workLogDto.TaskId });
+        }
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized();
+        }
+
+        var workLog = new WorkLog
+        {
+            TaskId = workLogDto.TaskId,
+            UserId = Guid.Parse(userId),
+            HoursSpent = workLogDto.HoursSpent,
+            WorkType = workLogDto.WorkType,
+            Comment = workLogDto.Comment,
+            Date = DateTime.UtcNow
+        };
+
+        _context.WorkLogs.Add(workLog);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("Details", new { id = workLogDto.TaskId });
+    }
+
+
+
+    [HttpGet]
+    public async Task<IActionResult> GetTotalWorkLog(Guid id)
+    {
+        var totalHours = await _context.WorkLogs
+            .Where(w => w.TaskId == id)
+            .SumAsync(w => w.HoursSpent);
+
+        return Ok(new { totalHours });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetWorkLogHistory(Guid id)
+    {
+        var workLogs = await _context.WorkLogs
+            .Where(w => w.TaskId == id)
+            .OrderByDescending(w => w.Date)
+            .Select(w => new
+            {
+                Date = w.Date.ToString("yyyy-MM-dd HH:mm"),
+                w.HoursSpent,
+                w.WorkType,
+                w.Comment
+            })
+            .ToListAsync();
+
+        return Ok(workLogs);
+    }
+
+    // GET: Tasks/Edit/5
+    public async Task<IActionResult> Edit(Guid id)
+    {
+        var task = await _taskService.GetTaskByIdAsync(id);
+        if (task == null)
+        {
+            return NotFound();
+        }
+
+        // Заполнение данных для редактирования
+        return View(task);
+    }
+
+    // POST: Tasks/Edit/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(Guid id, TaskDTO taskDto)
+    {
+        if (id != taskDto.Id)
+        {
+            return NotFound();
+        }
+
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                // Обновление задачи
+                await _taskService.UpdateTaskAsync(taskDto);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TaskExists(taskDto.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+        return View(taskDto);
+    }
+
+    // Проверка на существование задачи
+    private bool TaskExists(Guid id)
+    {
+        return _taskService.GetTaskByIdAsync(id) != null;
+    }
+
+
 
 }

@@ -1,0 +1,48 @@
+﻿@model TaskManagementApp.Application.DTOs.TaskDTO
+
+@{
+	ViewData["Title"] = "Редактирование задачи";
+}
+
+<h2 class="mb-4 text-center">✏️ Редактирование задачи</h2>
+
+<div class="card shadow-sm p-4">
+	<form asp-action="Edit" method="post">
+		@Html.AntiForgeryToken()
+
+		<div class="mb-3">
+			<label class="form-label">Название</label>
+			<input type="text" class="form-control" asp-for="Title" required />
+		</div>
+
+		<div class="mb-3">
+			<label class="form-label">Описание</label>
+			<textarea class="form-control" asp-for="Description"></textarea>
+		</div>
+
+		<div class="row">
+			<div class="mb-3">
+				<label class="form-label">Статус</label>
+				<select class="form-control" asp-for="Status">
+					<option value="New" selected="@(Model.Status == TaskManagementApp.Domain.Enums.TaskStatus.New ? "selected" : "")">Новая</option>
+					<option value="InProgress" selected="@(Model.Status == TaskManagementApp.Domain.Enums.TaskStatus.InProgress  ? "selected" : "")">В работе</option>
+					<option value="Completed" selected="@(Model.Status == TaskManagementApp.Domain.Enums.TaskStatus.Completed   ? "selected" : "")">Завершена</option>
+				</select>
+			</div>
+
+			<div class="col-md-6">
+				<label class="form-label">Приоритет</label>
+				<select class="form-select" asp-for="Priority">
+					<option value="Low" selected="@(Model.Priority == TaskManagementApp.Domain.Enums.TaskPriority.Low ? "selected" : "")">Низкий</option>
+					<option value="Medium" selected="@(Model.Priority == TaskManagementApp.Domain.Enums.TaskPriority.Medium ? "selected" : "")">Средний</option>
+					<option value="High" selected="@(Model.Priority == TaskManagementApp.Domain.Enums.TaskPriority.High ? "selected" : "")">Высокий</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="d-flex justify-content-between mt-4">
+			<a class="btn btn-outline-secondary" asp-action="Index">🔙 Назад к списку</a>
+			<button type="submit" class="btn btn-primary">✅ Сохранить</button>
+		</div>
+	</form>
+</div>

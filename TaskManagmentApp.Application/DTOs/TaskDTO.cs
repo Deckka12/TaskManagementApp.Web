@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskManagementApp.Domain.Entities;
 using TaskManagementApp.Domain.Enums;
 using TaskStatus = TaskManagementApp.Domain.Enums.TaskStatus;
 
@@ -29,6 +30,8 @@ namespace TaskManagementApp.Application.DTOs
         [Required(ErrorMessage = "Необходимо выбрать приоритет")]
         public TaskPriority Priority { get; set; } = TaskPriority.Medium;
         public Guid UserId { get; set; }
+
+        public List<WorkLog>? workLogs { get; set; }
 
         // Локализация статусов
         public string StatusText => Status switch

@@ -8,6 +8,7 @@ using TaskManagementApp.Application.Interfaces;
 using TaskManagementApp.Domain.Entities;
 using TaskManagementApp.Domain.Interface;
 
+
 namespace TaskManagementApp.Application.Services
 {
     public class TaskService : ITaskService
@@ -15,6 +16,7 @@ namespace TaskManagementApp.Application.Services
         private readonly ITaskRepository _taskRepository;
         private readonly IProjectRepository _projectRepository;
         private readonly IUserRepository _userRepository;
+
 
         public TaskService(ITaskRepository taskRepository, IProjectRepository projectRepository, IUserRepository userRepository)
         {
@@ -38,14 +40,15 @@ namespace TaskManagementApp.Application.Services
 
         public async Task<TaskDTO?> GetTaskByIdAsync(Guid id)
         {
-            var task = await _taskRepository.GetByIdAsync(id);
+            var task = await _taskRepository.GetByIdWithWorkLogsAsync(id);
             return task == null ? null : new TaskDTO
             {
                 Id = task.Id,
                 Title = task.Title,
                 Description = task.Description,
                 Status = task.Status,
-                Priority = task.Priority
+                Priority = task.Priority,
+                workLogs = task.WorkLogs.ToList(),
             };
         }
 

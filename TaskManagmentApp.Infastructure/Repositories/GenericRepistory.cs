@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskManagementApp.Infrastructure.DBContext;
 using TaskManagementApp.Domain.Interface;
+using TaskManagementApp.Domain.Entities;
 
 namespace TaskManagementApp.Infrastructure.Repositories
 {
@@ -45,5 +46,6 @@ namespace TaskManagementApp.Infrastructure.Repositories
 
         public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate) =>
             await _dbSet.Where(predicate).ToListAsync();
+
     }
 }

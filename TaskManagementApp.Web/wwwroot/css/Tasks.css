@@ -1,3 +1,22 @@
 ﻿.task-title:hover {
     text-decoration: underline;
 }
+
+.workForm{
+    transform: translateY(30%) !important;
+}
+.width85{
+    width: 85%;
+}
+
+.theme {
+    text-align: center;
+    display: block !important;
+    font-weight: 600 !important;
+}
+.blockRow{
+    flex-direction: column;
+}
+.width100 {
+    width: 100%;
+}

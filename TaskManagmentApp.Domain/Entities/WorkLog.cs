@@ -14,7 +14,7 @@ namespace TaskManagementApp.Domain.Entities
         public DateTime Date { get; set; } = DateTime.UtcNow;
         public double HoursSpent { get; set; }
         public string WorkType { get; set; }
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
         public TaskItem? Task { get; set; }
         public User? User { get; set; }

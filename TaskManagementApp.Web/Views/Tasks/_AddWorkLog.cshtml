@@ -1,0 +1,45 @@
+﻿@model TaskManagementApp.Application.DTOs.WorkLogDto
+
+<!-- Кнопка для открытия модального окна -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#workLogModal">
+    ➕ Добавить трудозатраты
+</button>
+
+<div class="modal fade " id="workLogModal" tabindex="-1" aria-labelledby="workLogModalLabel" aria-hidden="true">
+    <div class="modal-dialog workForm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="workLogModalLabel">Добавить трудозатраты</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Обычная форма POST -->
+                <form asp-action="AddWorkLog" asp-controller="Tasks" method="post">
+                    <input type="hidden" asp-for="TaskId" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Количество часов</label>
+                        <input asp-for="HoursSpent" class="form-control" min="0.1" step="0.1" required type = "number" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Тип работы</label>
+                        <select asp-for="WorkType" class="form-control">
+                            <option value="Разработка">Разработка</option>
+                            <option value="Тестирование">Тестирование</option>
+                            <option value="Обсуждение">Обсуждение</option>
+                            <option value="Документирование">Документирование</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Комментарий</label>
+                        <input asp-for="Comment" class="form-control" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

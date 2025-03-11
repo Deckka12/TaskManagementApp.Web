@@ -33,5 +33,12 @@ namespace TaskManagementApp.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+        public async Task<TaskItem?> GetByIdWithWorkLogsAsync(Guid id)
+        {
+            return await _context.Tasks
+                .Include(t => t.WorkLogs) 
+                .ThenInclude(u => u.User)// ✅ Загружаем WorkLogs
+                .FirstOrDefaultAsync(t => t.Id == id);
+        }
     }
 }

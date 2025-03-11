@@ -11,5 +11,6 @@ namespace TaskManagementApp.Domain.Interface
     {
         Task<IEnumerable<TaskItem>> GetByUserIdAsync(Guid userId);
         Task DeleteAsync(Guid id);
+        Task<TaskItem?> GetByIdWithWorkLogsAsync(Guid id);
     }
 }
