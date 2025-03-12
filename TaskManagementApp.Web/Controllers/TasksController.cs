@@ -43,6 +43,23 @@ public class TasksController : Controller
         }
     }
 
+    // Мои задачи
+    public async Task<IActionResult> MyTasks()
+    {
+        // Получаем идентификатор текущего пользователя (из Claim)
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        // Преобразуем строку в Guid (если это необходимо)
+        if (Guid.TryParse(userId, out var parsedUserId))
+        {
+            var tasks = await _taskService.GetTasksByUser(parsedUserId); // Получаем задачи текущего пользователя
+            return View("Index", tasks); // Передаем задачи в представление
+        }
+
+        // В случае ошибки (если userId не является допустимым Guid), можно вернуть ошибку или пустой список
+        return View("Error", new ErrorViewModel { Message = "Невозможно получить задачи для текущего пользователя." });
+    }
+
     public async Task<IActionResult> Create()
     {
         await PopulateProjectsAsync();

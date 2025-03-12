@@ -15,5 +15,6 @@ namespace TaskManagementApp.Application.Interfaces
         Task CreateTaskAsync(TaskDTO taskDto);
         Task UpdateTaskAsync(TaskDTO taskDto);
         Task DeleteTaskAsync(Guid id);
+        Task<IEnumerable<TaskDTO>> GetTasksByUser(Guid userId);
     }
 }

@@ -20,7 +20,15 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav me-auto">
-						<li class="nav-item"><a class="nav-link" asp-controller="Tasks" asp-action="Index">Задачи</a></li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="tasksDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Задачи
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="tasksDropdown">
+								<li><a class="dropdown-item" asp-controller="Tasks" asp-action="Index">Все задачи</a></li>
+								<li><a class="dropdown-item" asp-controller="Tasks" asp-action="MyTasks">Мои задачи</a></li>
+							</ul>
+						</li>
 						<li class="nav-item"><a class="nav-link" asp-controller="Projects" asp-action="Index">Проекты</a></li>
 					</ul>
 

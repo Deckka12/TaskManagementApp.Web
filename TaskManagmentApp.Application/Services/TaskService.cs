@@ -7,6 +7,7 @@ using TaskManagementApp.Application.DTOs;
 using TaskManagementApp.Application.Interfaces;
 using TaskManagementApp.Domain.Entities;
 using TaskManagementApp.Domain.Interface;
+using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 
 namespace TaskManagementApp.Application.Services
@@ -103,6 +104,18 @@ namespace TaskManagementApp.Application.Services
             {
                 await _taskRepository.DeleteAsync(task);
             }
+        }
+
+        public async Task<IEnumerable<TaskDTO>> GetTasksByUser(Guid userId)
+        {
+            var tasks = await _taskRepository.GetByUserIdAsync(userId);  // Используем метод репозитория для получения задач
+            return tasks.Select(t => new TaskDTO
+            {
+                Id = t.Id,
+                Title = t.Title,
+                Status = t.Status,
+                Priority = t.Priority // Добавляем дату создания, если необходимо
+            }).ToList();
         }
     }
 }
